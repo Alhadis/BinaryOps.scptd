@@ -48,6 +48,21 @@ to bitwiseOR(a, b)
 	bits
 end
 
+to bitwiseXOR(a, b)
+	set {a, b} to normaliseBinary(a, b)
+	set bits to ""
+	repeat with i from 1 to a's length
+		set b1 to character i of a is "1"
+		set b2 to character i of b is "1"
+		if (b1 or b2) and not (b1 and b2)
+			set bits to bits & "1"
+		else
+			set bits to bits & "0"
+		end if
+	end repeat
+	bits
+end
+
 to normaliseBinary(a, b)
 	if a's class isn't Text then set a to convertToBinary from a
 	if b's class isn't Text then set b to convertToBinary from b
@@ -62,5 +77,5 @@ to normaliseBinary(a, b)
 end
 
 on run argv
-	bitwiseAND("1101", "1011")
+	bitwiseXOR(5, 3)
 end
