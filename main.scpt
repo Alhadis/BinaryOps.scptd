@@ -35,6 +35,25 @@ to bitwiseAND(a, b)
 	bits
 end
 
+to bitwiseNOT for value given bytes:bytes
+	if value's class isn't Text then ¬
+		set value to convertToBinary from value
+	if bytes is missing value or bytes * 8 < value's length then ¬
+		set bytes to round (value's length / 8) rounding up
+	repeat until (value's length) equals bytes * 8
+		set value to "0" & value
+	end repeat
+	set inverted to ""
+	repeat with i from 1 to value's length
+		if character i of value is "1"
+			set inverted to inverted & "0"
+		else
+			set inverted to inverted & "1"
+		end if
+	end repeat
+	return inverted
+end
+
 to bitwiseOR(a, b)
 	set {a, b} to normaliseBinary(a, b)
 	set bits to ""
@@ -77,5 +96,5 @@ to normaliseBinary(a, b)
 end
 
 on run argv
-	bitwiseXOR(5, 3)
+	bitwiseNOT for 5 given bytes:1
 end
