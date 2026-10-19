@@ -82,6 +82,33 @@ to bitwiseXOR(a, b)
 	bits
 end
 
+to shiftLeft(value, steps as Integer)
+	validateSteps(steps)
+	if steps < 0 then ¬
+		error "Cannot shift by negative offset" number -1719 from steps
+	if value's class is Integer then ¬
+		return value * (2 ^ steps) as Integer
+	if value's class isn't Text then ¬
+		set value to convertToBinary from value
+	set value to text 1 thru (value's length - steps) of value
+	repeat steps times
+		set value to "0" & value
+	end repeat
+	value
+end
+
+to shiftRight(value, steps as Integer)
+	validateSteps(steps)
+	if value's class is Integer then ¬
+		return value div (2 ^ steps)
+	if value's class isn't Text then ¬
+		set value to convertToBinary from value
+	repeat steps times
+		set value to value & "0"
+	end repeat
+	value
+end
+
 to normaliseBinary(a, b)
 	if a's class isn't Text then set a to convertToBinary from a
 	if b's class isn't Text then set b to convertToBinary from b
@@ -95,6 +122,12 @@ to normaliseBinary(a, b)
 	{a, b}
 end
 
+to validateSteps(steps)
+	if steps < 0
+		error "Shift offset cannot be negative" number -1719 from steps
+	end if
+end
+
 on run argv
-	bitwiseNOT for 5 given bytes:1
+	shiftRight(5, 1)
 end
