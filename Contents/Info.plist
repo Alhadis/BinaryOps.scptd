@@ -1,0 +1,9 @@
+{
+	CFBundleIdentifier = com.alhadis.binary-ops;
+	CFBundleShortVersionString = 1.0;
+	CFBundleVersion = 3;
+	NSHumanReadableCopyright = "Copyright \u00A9 2026 John Gardner";
+	OSAAppleScriptObjCEnabled = NO;
+	OSAScriptingDefinition = ScriptingDictionary;
+	TemplateForCFBundleIdentifier = com.alhadis.binary-ops;
+}
