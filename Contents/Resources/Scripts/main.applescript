@@ -1,5 +1,4 @@
-#!/usr/bin/env osascript -ss
-
+--*- on-save: "osacompile -o main.scpt main.applescript"; -*-
 property name:    "BinaryOps"
 property id:      "com.alhadis.binary-ops"
 property version: "1.0"
@@ -130,8 +129,4 @@ to validateSteps(steps)
 	if steps < 0
 		error "Shift offset cannot be negative" number -1719 from steps
 	end if
-end
-
-on run argv
-	shiftRight(5, 1)
 end

@@ -17,3 +17,6 @@ yarn.lock
 [._]s[a-v][a-z]
 [._]sw[a-p]
 /test.*
+
+# Project-specific
+main.scpt
