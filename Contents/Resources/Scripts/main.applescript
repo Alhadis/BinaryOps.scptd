@@ -1,8 +1,12 @@
 --*- on-save: "osacompile -o main.scpt main.applescript"; -*-
+use AppleScript version "2.4"
+use scripting additions
+
 property name:    "BinaryOps"
 property id:      "com.alhadis.binary-ops"
 property version: "1.0"
 
+-- Convert a decimal number to its binary representation
 to convertToBinary from decimal
 	set bits to ""
 	repeat until decimal = 0
@@ -17,13 +21,83 @@ to convertToBinary from decimal
 	bits
 end
 
-to convertToDecimal from binary
+-- Convert a binary, octal, or hexadecimal value to decimal
+to convertToDecimal from input given radix:radix as Integer
+	if radix isn't contained by {2, 8, 10, 16}
+		error "Radix must be one of 2, 8, 10 or 16" number -10023 from radix
+	else if radix equals 10
+		return input + 0
+	end if
+
+	-- Store/strip a leading sign component
+	set negative to input starts with "-"
+	if negative or input starts with "+"
+		set input to text 2 thru end of input
+	end if
+	
+	-- Strip radix indicators
+	ignoring case
+		if (radix is 16 and input starts with "0x") ¬
+		or (radix is 2  and input starts with "0b") ¬
+		or (radix is 8  and input starts with "0o")
+			set input to text 3 thru end of input
+		end if
+	end ignoring
+
+	-- Short-circuit values of zero
+	if {"00", "0", ""} contains input then return 0
+
 	set decimal to 0
-	repeat with bit in characters of binary
-		set decimal to decimal * 2 + (bit as Integer)
-	end repeat
+	
+	-- Binary
+	if radix equals 2
+		repeat with bit in input's characters
+			set decimal to decimal * 2 + (bit as Integer)
+		end repeat
+	
+	-- Octal and Hexadecimal
+	else
+		set position to 0
+		repeat with digit in reverse of input's characters
+			set decimal to decimal + (¬
+				((offset of digit in "0123456789ABCDEF") - 1) * ¬
+				(radix ^ position))
+			set position to position + 1
+		end repeat
+	end if
+
+	-- Negate result if input was originally negative
+	if negative then set decimal to -decimal
+	
+	-- Coerce value to integer if it falls within AppleScript's limits for integral values
+	if decimal > -536870912 and decimal ≤ 536870911 then set decimal to decimal as Integer
+	
+	-- Return result
 	decimal
-end
+end convertToDecimal
+
+-- Convert a decimal to a hexadecimal string of length ≥ 2
+to convertToHex from decimal as Integer
+	if decimal equals 0 then return "00"
+
+	-- If negative, negate value and store sign for later
+	set negative to decimal < 0
+	if negative then set decimal to -decimal
+
+	-- Convert value to base-16
+	set hex to ""
+	repeat until decimal = 0
+		set hex to (text ((decimal mod 16) + 1) of "0123456789ABCDEF") & hex
+		set decimal to decimal div 16
+	end repeat
+
+	-- Prepend leading zero if result is < 0x10
+	if hex's length is 1 then set hex to "0" & hex
+
+	-- Prepend sign if original value was negative
+	if negative then set hex to "-" & hex
+	hex
+end convertToHex
 
 to bitwiseAND(a, b)
 	set {a, b} to normaliseBinary(a, b)
