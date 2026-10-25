@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="BinaryOps Terminology">
+	<suite name="Base conversion" code="!BoB" description="Commands for converting between integer representations.">
+		<command name="convert to binary" code="!BoBCvBi" description="Convert a decimal value to its binary representation.">
+			<parameter type="integer" name="from" code="From" description="The base-10 (decimal) value to be converted." optional="NO"/>
+			<result type="binary string" description="A string of binary digits."/>
+		</command>
+		<command id="convertToDecimal" name="convert to decimal" code="!BoBCvDc" description="Convert a binary, octal, or hexadecimal value to decimal.">
+			<parameter name="from" code="From" description="The value to be converted." optional="NO">
+				<type type="binary string"/>
+				<type type="octal string"/>
+				<type type="hex string"/>
+			</parameter>
+			<parameter type="radix" name="radix" code="Radx" description="The input base to convert from." optional="NO"/>
+			<result type="decimal number" description="An integral base-10 (decimal) value."/>
+		</command>
+		<command name="convert to hex" code="!BoBCvHx" description="Convert a decimal integer to a hexadecimal string.">
+			<parameter type="integer" name="from" code="From" description="The base-10 (decimal) value to be converted." optional="NO"/>
+			<result type="hex string" description="An uppercase hexadecimal string padded to at least two digits."/>
+		</command>
+	</suite>
+
+	<suite name="Bitwise operations" code="!BoO" description="Commands for performing bitwise operations.">
+		<command name="bitwise AND" code="!BoOAnd " description="Combine two values using bitwise AND logic.">
+			<parameter name="a" code="ArgA" type="binary argument" optional="NO" description="The first integer to be combined."/>
+			<parameter name="b" code="ArgB" type="binary argument" optional="NO" description="The second integer to be combined."/>
+			<result type="decimal number"/>
+		</command>
+		<command name="bitwise NOT" code="!BoONot " description="Invert the bits of a binary value.">
+			<parameter name="for" code="For " type="binary argument" description="The value to flip the bits of." optional="NO"/>
+			<parameter name="bytes" code="Byte" type="integer" description="The length of the value being inverted, in bytes (default is the number of bytes needed to contain original argument)." optional="YES"/>
+			<result type="decimal number"/>
+		</command>
+		<command name="bitwise OR" code="!BoOOr  " description="Combine two values using bitwise OR logic.">
+			<parameter name="a" code="ArgA" type="binary argument" optional="NO" description="The first integer to be combined."/>
+			<parameter name="b" code="ArgB" type="binary argument" optional="NO" description="The second integer to be combined."/>
+			<result type="decimal number"/>
+		</command>
+		<command name="bitwise XOR" code="!BoOXor " description="Combine two values using bitwise exclusive OR (XOR) logic.">
+			<parameter name="a" code="ArgA" type="binary argument" optional="NO" description="The first integer to be combined."/>
+			<parameter name="b" code="ArgB" type="binary argument" optional="NO" description="The second integer to be combined."/>
+			<result type="decimal number"/>
+		</command>
+		<command name="shift left" code="!BoOShfL" description="Shift an integer leftwards by the specified number of bits.">
+			<parameter name="value" code="ValN" type="binary argument" optional="NO" description="The value to be bit-shifted leftward."/>
+			<parameter name="steps" code="Step" type="integer" optional="NO" description="The number of bits to shift the value by."/>
+			<result type="decimal number"/>
+		</command>
+		<command name="shift right" code="!BoOShfR" description="Shift an integer rightwards by the specified number of bits.">
+			<parameter name="value" code="ValN" type="binary argument" optional="NO" description="The value to be bit-shifted rightward."/>
+			<parameter name="steps" code="Step" type="integer" optional="NO" description="The number of bits to shift the value by."/>
+			<result type="decimal number"/>
+		</command>
+	</suite>
+	
+	<suite name="Internal commands" code="!BoI" hidden="YES" description="Ancillary commands used internally by library.">
+		<command id="normaliseBinary" name="normalise binary" code="!BoINorm" hidden="YES" description="Convert a pair of arguments to binary strings, padded out to matching lengths.">
+			<parameter name="a" code="ArgA" type="binary argument" optional="NO" description="The first integer to be combined."/>
+			<parameter name="b" code="ArgB" type="binary argument" optional="NO" description="The second integer to be combined."/>
+			<result>
+				<type type="binary string" list="yes"/>
+			</result>
+		</command>
+		<command name="validate steps" code="!BoIVStp" hidden="YES" description="Verify the 'steps' argument of a shift operation, throwing error -1719 for values less than zero.">
+			<parameter name="steps" type="integer" code="Step" optional="NO" description="The number of steps to shift a value by."/>
+		</command>
+	</suite>
+	
+	<suite name="Type definitions" code="!BoT" description="Value type definitions used by library commands.">
+		<enumeration code="RdxT" name="radix" plural="radices" description="Radix specifier for conversion operations.">
+			<enumerator code="Rdx2" name="2"  description="Binary input."/>
+			<enumerator code="Rdx8" name="8"  description="Octal input."/>
+			<enumerator code="RdxA" name="10" description="Decimal input, supported for completeness's sake only."/>
+			<enumerator code="RdxF" name="16" description="Hexadecimal input."/>
+			<documentation><html><![CDATA[<p>Specifying any other value for a radix throws an error with code <code>-10023</code>.</p>]]></html></documentation>
+		</enumeration>
+		<value-type code="BStr" name="binary string" plural="binary strings" description="A string composed of &quot;0&quot; and &quot;1&quot; digits.">
+			<synonym name="text"/>
+		</value-type>
+		<value-type code="OStr" name="octal string" plural="octal strings" description="A string composed of digits in the range &quot;0&quot; to &quot;7&quot; (inclusive).">
+			<synonym name="text"/>
+		</value-type>
+		<value-type code="HStr" name="hex string" plural="hex strings" description="A string composed of digits and/or the letters &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, and &quot;F&quot;.">
+			<synonym name="text"/>
+			<xref target="convert to hex"/>
+		</value-type>
+		<value-type code="DNum" name="decimal number" plural="decimal numbers" description="A decimal integer.">
+			<documentation><html><![CDATA[<p>Values outside AppleScript’s limits for <samp>integer</samp> values (<code>-536870912</code>, <code>536870911</code>) are necessarily retained as <samp>real</samp> values instead.</p>]]></html></documentation>
+			<type type="integer"/>
+			<type type="real"/>
+			<xref target="convertToDecimal"/>
+		</value-type>
+		<value-type code="BArg" name="binary argument" plural="binary arguments" description="Input for a bitwise operation. If an integer, will be converted to a string of binary digits using &apos;normaliseBinary&apos;.">
+			<type type="binary string"/>
+			<type type="integer"/>
+			<xref target="normaliseBinary"/>
+		</value-type>
+	</suite>
+</dictionary>

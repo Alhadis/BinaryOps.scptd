@@ -1,9 +1,12 @@
 {
+	CFBundleName = "BinaryOps";
 	CFBundleIdentifier = com.alhadis.binary-ops;
+	CFBundleDevelopmentRegion = English;
 	CFBundleShortVersionString = 1.0;
+	CFBundleSignature = "!BiO";
 	CFBundleVersion = 3;
-	NSHumanReadableCopyright = "Copyright \u00A9 2026 John Gardner";
+	NSHumanReadableCopyright = "Copyright © 2026 John Gardner";
 	OSAAppleScriptObjCEnabled = NO;
-	OSAScriptingDefinition = ScriptingDictionary;
+	OSAScriptingDefinition = ScriptingDictionary.sdef;
 	TemplateForCFBundleIdentifier = com.alhadis.binary-ops;
 }
