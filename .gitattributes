@@ -1,7 +1,12 @@
-# Exclude these files when downloading tarballed archive
-.editorconfig  export-ignore
-.gitattributes export-ignore
+[attr]no-indent  whitespace=trailing-space
+[attr]spaces     whitespace=trailing-space,space-before-tab,tabs-in-indent
+[attr]tabs       whitespace=trailing-space,space-before-tab,indent-with-non-tab,tabwidth=4
 
-# Include these files in language statistics on GitHub.com
-*.plist linguist-detectable
-*.sdef  linguist-detectable
+*                tabs
+*.scpt           binary
+*.rtf            linguist-documentation
+*.rtfd/**/*      linguist-documentation
+.editorconfig    no-indent export-ignore
+.gitattributes   no-indent export-ignore
+.gitignore       no-indent
+LICENSE.md       -whitespace
