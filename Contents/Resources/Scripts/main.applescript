@@ -1,4 +1,4 @@
---*- on-save: "osacompile -o main.scpt main.applescript"; -*-
+--*- on-save: "make -C ../.."; -*-
 use AppleScript version "2.4"
 use scripting additions
 
