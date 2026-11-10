@@ -91,7 +91,8 @@
 			<type type="real"/>
 			<xref target="convertToDecimal"/>
 		</value-type>
-		<value-type code="BArg" name="binary argument" plural="binary arguments" description="Input for a bitwise operation. If an integer, will be converted to a string of binary digits using &apos;normaliseBinary&apos;.">
+		<value-type code="BArg" name="binary argument" plural="binary arguments" description="A string of ones and zeroes.">
+			<documentation><html><![CDATA[<p>Input for a bitwise operation. If an integer, will be converted to a string of binary digits using <code><a href="#normaliseBinary">normaliseBinary</a></code>.</p>]]></html></documentation>
 			<type type="binary string"/>
 			<type type="integer"/>
 			<xref target="normaliseBinary"/>
