@@ -1,0 +1,7 @@
+# Exclude these files when downloading tarballed archive
+.editorconfig  export-ignore
+.gitattributes export-ignore
+
+# Include these files in language statistics on GitHub.com
+*.plist linguist-detectable
+*.sdef  linguist-detectable
